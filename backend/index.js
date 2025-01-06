@@ -46,20 +46,18 @@ app.post("/books", async (request, response) => {
     try {
         const { title, author, publishYear } = request.body;
 
-        // Validasi input
         if (!title || !author || !publishYear) {
             return response.status(400).send({
                 message: "Send all required fields: title, author, publishYear",
             });
         }
 
-        // Buat dokumen baru menggunakan model
+        // create new book using model
         const newBook = new Book({ title, author, publishYear });
 
-        // Simpan dokumen ke database
+        // save book to database
         const savedBook = await newBook.save();
 
-        // Kirim respons sukses
         return response.status(201).send(savedBook);
     } catch (error) {
         console.error("Error:", error.message);
@@ -88,6 +86,35 @@ app.get('/books/:id', async (request, response) => {
 
         const book = await Book.findById(id);
         return response.status(200).json(book);
+    } catch (error) {
+        console.log(error.message);
+        response.status(500).send({ message: error.message });
+    }
+});
+
+// route for update a book
+app.put('/books/:id', async (request, response) => {
+    try {
+        if (
+            !request.body.title ||
+            !request.body.author ||
+            !request.body.publishYear
+        ) {
+            return response.status(400).send({
+                message: "Send all required fields: title, author, publishYear",
+            });
+        }
+
+        const {id} = request.params;
+
+        const result = await Book.findByIdAndUpdate(id, request.body);
+
+        if (!result) {
+            return response.status(404).json({message: 'Book not found'})
+        }
+
+        return response.status(200).send({message: 'Book updated successfully'})
+
     } catch (error) {
         console.log(error.message);
         response.status(500).send({ message: error.message });
