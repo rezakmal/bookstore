@@ -95,6 +95,12 @@ app.get('/books/:id', async (request, response) => {
 // route for update a book
 app.put('/books/:id', async (request, response) => {
     try {
+        const {id} = request.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return response.status(404).json({ message: 'Book not found' });
+        }
+
         if (
             !request.body.title ||
             !request.body.author ||
@@ -104,8 +110,6 @@ app.put('/books/:id', async (request, response) => {
                 message: "Send all required fields: title, author, publishYear",
             });
         }
-
-        const {id} = request.params;
 
         const result = await Book.findByIdAndUpdate(id, request.body);
 
