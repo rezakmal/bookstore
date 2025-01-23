@@ -23,6 +23,8 @@ app.get('/', (request, response) => {
     return response.status(200).send("Welcome!");
 });
 
+app.use(express.json());
+
 app.use('/books', booksRoute);
 
 mongoose
