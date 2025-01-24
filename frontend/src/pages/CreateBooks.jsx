@@ -11,7 +11,7 @@ const CreateBooks = () => {
   const [publishYear, setPublishYear] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { enqueSnackbar } = useSnackbar;
+  const { enqueueSnackbar } = useSnackbar();
   const handleSaveBook = () => {
     const data = {
       title,
@@ -23,13 +23,13 @@ const CreateBooks = () => {
       .post("http://localhost:5555/books", data)
       .then(() => {
         setLoading(false);
-        enqueSnackbar("Book created successfully!", { variant: "success" });
+        enqueueSnackbar("Book created successfully!", { variant: "success" });
         navigate("/");
       })
       .catch((error) => {
         setLoading(false);
         // alert('An error happended. Please check console');
-        enqueSnackbar("Error!", { variant: "error" });
+        enqueueSnackbar("Error!", { variant: "error" });
         console.log(error);
       });
   };

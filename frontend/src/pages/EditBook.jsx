@@ -11,7 +11,7 @@ const EditBook = () => {
   const [publishYear, setPublishYear] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { enqueSnackbar } = useSnackbar;
+  const { enqueueSnackbar } = useSnackbar();
   const { id } = useParams();
   useEffect(() => {
     setLoading(true);
@@ -22,12 +22,12 @@ const EditBook = () => {
         setPublishYear(response.data.publishYear);
         setTitle(response.data.title);
         setLoading(false);
-        enqueSnackbar("Book edited successfully!", { variant: "success" });
+        enqueueSnackbar("Book edited successfully!", { variant: "success" });
       })
       .catch((error) => {
         setLoading(false);
         // alert('An error happened. Please check console.');
-        enqueSnackbar("Error!", { variant: "error" });
+        enqueueSnackbar("Error!", { variant: "error" });
         console.log(error);
       });
   }, []);
