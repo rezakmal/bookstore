@@ -22,7 +22,6 @@ const EditBook = () => {
         setPublishYear(response.data.publishYear);
         setTitle(response.data.title);
         setLoading(false);
-        enqueueSnackbar("Book edited successfully!", { variant: "success" });
       })
       .catch((error) => {
         setLoading(false);
@@ -42,6 +41,7 @@ const EditBook = () => {
       .put(`http://localhost:5555/books/${id}`, data)
       .then(() => {
         setLoading(false);
+        enqueueSnackbar("Book edited successfully!", { variant: "success" });
         navigate("/");
       })
       .catch((error) => {
